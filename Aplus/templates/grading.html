@@ -1,0 +1,62 @@
+
+{% block content %}
+<a href="">back</a>
+<p>{{ grade.student.user.last_name }}'s grade</p>
+
+<form  action="{% url 'excelupdate' grade.id%}" method="GET">
+    <!-- {% csrf_token %} -->
+    <!-- <input type="file" name="xlf" id="" value="{{ grade.user_grade}}"> -->
+    <p>{{ grade.user_grade}}</p>
+    <table border="1px">
+
+    <p>this is row in openpyxl</p>
+    
+    {% for row in rows %}
+        
+        {% if forloop.counter == 1 %}
+            <tr>
+                {% for cell in row%}
+                    <td><p>{{ cell  }}</p></td>
+                {% endfor %}
+            </tr>
+        {% else %}
+            <tr>
+                {% for cell in row%}
+                
+                    {% if forloop.counter == 1 %}
+                        <td><p>{{ cell  }}</p></td>
+                    {% else %}
+                        <td><input type="text" name="{{forloop.parentloop.counter}}{{forloop.counter}}" value="{{ cell  }}"></td>
+                    {% endif %}
+
+                {% endfor %}
+            </tr>
+        {% endif %}
+        
+    {% endfor %}     
+
+        <!-- working code -->
+        <!-- {% for row in rows %}
+        <tr>
+            {% for cell in row%}
+                <td>
+                    <input type="text" name="{{ cell.coordinate  }}" value="{{ cell.value  }}">
+                </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}  -->
+  
+        <!-- {% for row in rows %}
+        <tr>
+            {% for cell in row%}
+                <td contenteditable='True' name='{{ cell.coordinate  }}'> {{ cell.value  }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}  -->
+         
+    </table>
+    <input type="submit" value="Update">
+    <!-- <a href="">Insert New column</a> -->
+</form>
+
+{% endblock %}
